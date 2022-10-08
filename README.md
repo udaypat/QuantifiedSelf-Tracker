@@ -1,0 +1,58 @@
+# Quantified Self
+This is a Quantifed Self API. You can create 4 different types of trackers and log them.
+    The server supports taking  backup as csv. It alerts you daily and sends a monthly report to all the registerd emails. 
+    Give it a try and track your life!
+
+
+### Install backend requirements
+```
+cd /Backend
+pip install -r requirements.txt
+
+```
+
+### Install fronend requirements
+```
+cd /Frontend
+npm install
+```
+<br>
+
+## Project setup
+<br>
+
+### Run API server 
+```
+cd /Backend
+python3 main.py
+```
+
+
+### Run Redis server 
+```
+redis-server
+```
+
+### Run celery tasks and beat scheduler
+```
+celery -A tasks worker -l INFO
+celery -A tasks beat
+```
+
+
+## Frontend Server
+
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
+
+### Compile for building PWA
+```
+npm run build
+```
+### Deploy dist folder
+```
+cd  /dist
+python3 -m http.server
+```

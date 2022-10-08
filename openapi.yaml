@@ -1,0 +1,472 @@
+openapi: 3.0.0
+info:
+  title: Quantified Self
+  version: 2.0.0
+  description: |
+    This is a Quantifed Self API. You can create 4 different types of trackers and log them.
+    The server supports taking  backup as csv. It alerts you daily and sends a monthly report to all the registerd emails. 
+    Give it a try and track your life!
+servers:
+  - url: http://127.0.0.1:5000
+  
+components:
+  securitySchemes:
+    bearerAuth:        
+      type: http
+      scheme: bearer
+      bearerFormat: JWT 
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          
+        username:
+          type: string
+         
+        email:
+          type: string
+        password:
+          type: string
+    Tracker:
+      type: object
+      properties:
+        tid:
+          type: integer
+          format: int64
+        user_id:
+          type: integer
+          format: int64
+        name:
+          type: string
+         
+        desc:
+          type: string
+        t_type:
+          type: integer
+        settings:
+          type: string
+    logs:
+      type: object
+      properties:
+        lid:
+          type: integer
+          format: int64
+        user_id:
+          type: integer
+          format: int64
+        tid:
+          type: integer
+          
+        timestamp:
+          type: string
+          format: date-time
+        val:
+          type: string
+        note:
+          type: string
+          
+
+        
+      
+      
+
+tags:
+  - name: user
+    description: Register or Login
+   
+  - name: tracker
+    description: Access to trackers
+    
+  - name: log
+    description: Access to logs
+  - name: CSV
+    description: Export as csv
+
+paths:
+  /register:
+    post:
+      tags:
+        - user
+      summary: Create User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+#       
+    
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /login:
+    post:
+      tags:
+        - user
+      summary: Login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+              
+     
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:   
+                  access_token:
+                    type: string 
+  /trackers:
+    get:
+      tags:
+        - tracker
+      summary: Get a list of all your trackers
+      security:
+        - bearerAuth: []
+  
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: 
+              schema:
+                type: object
+                
+                
+       
+  
+  
+ 
+  /create_tracker:
+    post:
+      description: type 1 for num, 
+                    2 for multi,3 for duration, 4 for boolean
+      tags:
+        - tracker
+      summary: Create a new Tracker
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                desc:
+                  type: string
+                type:
+                  type: integer
+                  minimum: 1
+                  
+                settings:
+                  type: string
+          
+      security:
+        - bearerAuth: []
+        
+     
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Tracker ID:
+                    type: integer
+                    minimum: 1
+            
+            
+            
+            
+  /tracker/{t_id}:
+    get:
+      parameters:
+        - in: path
+          name: t_id   
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The tracker ID
+      tags:
+        - tracker
+      summary: Get Tracker details by tracker id
+      security:
+        - bearerAuth: []
+      
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+            
+            
+  /update_tracker/{t_id}:
+    put:
+      parameters:
+        - in: path
+          name: t_id   
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The tracker ID
+      tags:
+        - tracker
+      summary: Update  a Tracker by tracker id
+    
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                desc:
+                  type: string
+                type:
+                  type: integer
+                settings:
+                  type: string
+              
+              
+      security:
+        - bearerAuth: []
+   
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}     
+            
+  /delete_tracker/{t_id}:
+    delete:
+      tags:
+        - tracker
+      summary: Delete a Tracker and all its logs
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: t_id   
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The tracker ID 
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}          
+
+  /{t_id}/logs:
+    get:
+      tags:
+        - log
+      summary: Get list of logs  by tracker id
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: t_id   
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The tracker ID 
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /{t_id}/create_log:
+    post:
+      tags:
+        - log
+      summary: Add new log for a tracker
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                timestamp:
+                  type: string
+                value:
+                  type: string
+                note:
+                  type: integer
+      parameters:
+        - in: path
+          name: t_id   
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The tracker ID          
+      security:
+        - bearerAuth: []
+   
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /log/{l_id}:
+    get:
+      tags:
+        - log
+      summary: Get a log by log id
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: l_id   
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The log ID      
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /update_log/{l_id}:
+    put:
+      parameters:
+        - in: path
+          name: l_id   
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The log ID
+      tags:
+        - log
+      summary: Update Log by log id
+     
+              
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                note:
+                  type: string
+                timestamp:
+                  type: string
+                val:
+                  type: string
+                
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /delete_log/{l_id}:
+    delete:
+      tags:
+        - log
+      summary: Delete Log by log id
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: l_id   
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The log ID 
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+            
+            
+  /generate_export:
+    get:
+      tags:
+        - CSV
+      summary: Generate csv
+      security:
+        - bearerAuth: []
+      
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: 
+              schema:
+                type: object
+                properties:
+                  file_id:
+                    type: string
+  /export/{file_id}:
+    get:
+      tags:
+        - CSV
+      summary: Download csv
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: file_id  
+          required: true
+          schema:
+            type: string
+            
+          description: The file ID 
+      
+      responses:
+        '200':
+          description: Successful response
+          headers:
+            Content-Disposition:
+              schema:
+                type: string
+                
+          content:
+            application/csv:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: File hasnt been generated yet or something went wrong
+          content:
+            application/json:
+              schema:
+                type: object
+                
