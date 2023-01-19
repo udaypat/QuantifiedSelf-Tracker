@@ -1,6 +1,6 @@
 # Quantified Self
-This is a Quantifed Self API. You can create 4 different types of trackers and log them.
-    The server supports taking  backup as csv. It alerts you daily and sends a monthly report to all the registerd emails. 
+This is a Quantified Self API. You can create 4 different types of trackers and log them.
+    The server supports exporting backup as CSV. It alerts you daily and sends a monthly report to all the registered emails. 
     Give it a try and track your life!
 
 ### Features
@@ -20,7 +20,7 @@ pip install -r requirements.txt
 
 ```
 
-### Install fronend requirements
+### Install frontend requirements
 ```
 cd /Frontend
 npm install
