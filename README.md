@@ -5,13 +5,13 @@ This is a Quantifed Self API. You can create 4 different types of trackers and l
 
 ### Features
 
-- Standalone Flask API Server
-- Single Page APP(SPA) using Vue
-- Can be installed as PWA on Android or iOS
-- JWT Auth
-- Daily and monthly background alert jobs using Celery
-- Caching for fast API response using Redis
-- Swagger UI Documentation for API
+- 🖥️ Standalone Flask API Server
+- 🌐 Single Page APP(SPA) using Vue
+- 📲 Can be installed as PWA on Android or iOS
+- 🔐 JWT Auth
+- 🔔 Daily and monthly background alert jobs using Celery
+- ⚡ Caching for fast API response using Redis
+- 📄 Swagger UI Documentation for API
 
 ### Install backend requirements
 ```
