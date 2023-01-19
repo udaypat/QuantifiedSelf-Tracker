@@ -1,5 +1,5 @@
 # Quantified Self
-This is a Quantified Self API. You can create 4 different types of trackers and log them.
+This is a Quantified Self APP. You can create 4 different types of trackers and log them.
     The server supports exporting backup as CSV. It alerts you daily and sends a monthly report to all the registered emails. 
     Give it a try and track your life!
 
