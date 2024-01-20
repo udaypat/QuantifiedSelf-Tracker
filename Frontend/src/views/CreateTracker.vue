@@ -100,7 +100,7 @@ export default {
         },
         body: JSON.stringify(this.TrackerData),
       };
-      fetch("http://127.0.0.1:5000/create_tracker", options)
+      fetch(`${process.env.VUE_APP_BACKEND_ENDPOINT}/create_tracker`, options)
         .then((response) => response.json())
         .then(() => this.$router.push("/dashboard"))
         .catch((err) => console.error(err));

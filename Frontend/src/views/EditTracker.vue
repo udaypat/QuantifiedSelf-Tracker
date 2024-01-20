@@ -89,7 +89,9 @@ export default {
   },
   methods: {
     getTracker() {
-      let url = "http://127.0.0.1:5000/tracker/" + this.$route.params.tid;
+      let url =
+        `${process.env.VUE_APP_BACKEND_ENDPOINT}/tracker/` +
+        this.$route.params.tid;
       fetch(url, {
         method: "GET",
         headers: { Authorization: localStorage.getItem("access_key") },
@@ -110,7 +112,10 @@ export default {
         body: JSON.stringify(this.TrackerData),
       };
 
-      fetch("http://127.0.0.1:5000/update_tracker/4", options)
+      fetch(
+        `${process.env.VUE_APP_BACKEND_ENDPOINT}/update_tracker/${this.$route.params.tid}`,
+        options
+      )
         .then((response) => response.json())
         .then(() => this.$router.push("/dashboard"))
         .catch((err) => console.error(err));

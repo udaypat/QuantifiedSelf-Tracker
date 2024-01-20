@@ -101,7 +101,8 @@ export default {
           Authorization: localStorage.getItem("access_key"),
         },
       };
-      let url = "http://127.0.0.1:5000/delete_tracker/" + item.tid;
+      let url =
+        `${process.env.VUE_APP_BACKEND_ENDPOINT}/delete_tracker/` + item.tid;
       fetch(url, options)
         .then((response) => response.json())
         .then((response) => console.log(response))
@@ -120,7 +121,7 @@ export default {
         },
       };
 
-      fetch("http://127.0.0.1:5000/generate_export", options)
+      fetch(`${process.env.VUE_APP_BACKEND_ENDPOINT}/generate_export`, options)
         .then((response) => response.json())
         .then((response) => {
           check_file(response.file_id);
@@ -139,7 +140,8 @@ export default {
               Authorization: localStorage.getItem("access_key"),
             },
           };
-          const url = "http://127.0.0.1:5000/export/" + file_id;
+          const url =
+            `${process.env.VUE_APP_BACKEND_ENDPOINT}/export/` + file_id;
 
           const req = fetch(url, options)
             .then((res) => {
@@ -165,7 +167,7 @@ export default {
     },
   },
   created() {
-    fetch("http://127.0.0.1:5000/trackers", {
+    fetch(`${process.env.VUE_APP_BACKEND_ENDPOINT}/trackers`, {
       headers: { Authorization: localStorage.getItem("access_key") },
     })
       .then((res) => res.json())

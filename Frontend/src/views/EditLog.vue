@@ -139,7 +139,9 @@ export default {
   },
   methods: {
     getTracker() {
-      let url = "http://127.0.0.1:5000/tracker/" + this.Logdata.tracker_id;
+      let url =
+        `${process.env.VUE_APP_BACKEND_ENDPOINT}/tracker/` +
+        this.Logdata.tracker_id;
       fetch(url, {
         method: "GET",
         headers: { Authorization: localStorage.getItem("access_key") },
@@ -152,7 +154,7 @@ export default {
     },
     getLog() {
       this.log_id = this.$route.params.lid;
-      let url = "http://127.0.0.1:5000/log/" + this.log_id;
+      let url = `${process.env.VUE_APP_BACKEND_ENDPOINT}/log/` + this.log_id;
 
       fetch(url, {
         method: "GET",
@@ -173,7 +175,8 @@ export default {
         },
         body: JSON.stringify(this.Logdata.log),
       };
-      let url = "http://127.0.0.1:5000/update_log/" + this.log_id;
+      let url =
+        `${process.env.VUE_APP_BACKEND_ENDPOINT}/update_log/` + this.log_id;
       fetch(url, options)
         .then((response) => response.json())
         .then(() => this.$router.back())

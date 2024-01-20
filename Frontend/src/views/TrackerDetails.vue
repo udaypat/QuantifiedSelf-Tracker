@@ -96,7 +96,8 @@ export default {
       };
       this.tracker_id = this.$route.params.tid;
 
-      let url = "http://127.0.0.1:5000/" + this.tracker_id + "/logs";
+      let url =
+        `${process.env.VUE_APP_BACKEND_ENDPOINT}/` + this.tracker_id + "/logs";
       fetch(url, options)
         .then((response) => response.json())
         .then((response) => {
@@ -112,7 +113,8 @@ export default {
           Authorization: localStorage.getItem("access_key"),
         },
       };
-      let url = "http://127.0.0.1:5000/tracker/" + this.tracker_id;
+      let url =
+        `${process.env.VUE_APP_BACKEND_ENDPOINT}/tracker/` + this.tracker_id;
       fetch(url, options)
         .then((response) => response.json())
         .then((response) => {
@@ -130,7 +132,8 @@ export default {
           Authorization: localStorage.getItem("access_key"),
         },
       };
-      let url = "http://127.0.0.1:5000/delete_log/" + item.lid;
+      let url =
+        `${process.env.VUE_APP_BACKEND_ENDPOINT}/delete_log/` + item.lid;
       fetch(url, options)
         .then((response) => response.json())
         .then(() => {

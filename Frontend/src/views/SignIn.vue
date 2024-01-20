@@ -83,8 +83,7 @@ export default {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(this.userdata),
       };
-
-      fetch("http://127.0.0.1:5000/login", options)
+      fetch(`${process.env.VUE_APP_BACKEND_ENDPOINT}/login`, options)
         .then((response) => response.json())
         .then((response) => {
           let token = response.access_token;

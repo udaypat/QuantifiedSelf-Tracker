@@ -92,7 +92,7 @@ export default {
         body: JSON.stringify(this.userdata),
       };
 
-      fetch("http://127.0.0.1:5000/register", options)
+      fetch(`${process.env.VUE_APP_BACKEND_ENDPOINT}/register`, options)
         .then((response) => response.json())
         .then((response) => {
           if (response == "User already Exists") {

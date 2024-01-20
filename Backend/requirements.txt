@@ -10,3 +10,4 @@ redis
 pandas
 marshmallow-sqlalchemy
 celery
+Werkzeug==2.2.2
