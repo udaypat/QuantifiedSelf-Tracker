@@ -1,24 +1,16 @@
 from datetime import datetime
 
 import bcrypt
-
-
 from flask import jsonify, request, send_file
-
-
-from main import app, ma, cache
-from models import Logs, Tracker, User, db
-
-
-from tasks import generate_csv
-
-
 from flask_jwt_extended import (
+    JWTManager,
     create_access_token,
     get_jwt_identity,
     jwt_required,
-    JWTManager,
 )
+from main import app, cache, ma
+from models import Logs, Tracker, User, db
+from tasks import generate_csv
 
 jwt = JWTManager(app)
 
@@ -67,7 +59,6 @@ def login():
 # Create User
 @app.post("/register")
 def register():
-
     # Getting data
     userdata = request.get_json()
     usr = User.query.filter_by(username=userdata["username"]).first()
@@ -201,7 +192,6 @@ def create_log(tracker_id):
         )
 
     except ValueError:
-
         db.session.add(
             Logs(
                 user_id=current_userid,
@@ -317,3 +307,8 @@ def export(file_id):
         return send_file(f"{file_id}_report.csv", as_attachment=True)
     except FileNotFoundError:
         return jsonify("File not generated"), 404
+
+
+@app.route("/hello")
+def hello():
+    return "Hello from Flask API"
