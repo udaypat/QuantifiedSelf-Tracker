@@ -1,0 +1,36 @@
+# Use an official Nginx runtime as a base image
+FROM nginx:latest
+
+# Set the working directory inside the container
+WORKDIR /usr/share/nginx/html
+
+# Remove the default Nginx welcome page
+RUN rm -rf ./*
+
+# Copy the contents of the 'dist' folder (built Vue app) into the container
+COPY ./dist/ .
+
+# Create a default Nginx configuration file with a reverse proxy to your backend API
+RUN echo 'server {' > /etc/nginx/conf.d/default.conf \
+    && echo '    listen 80;' >> /etc/nginx/conf.d/default.conf \
+    && echo '    server_name localhost;' >> /etc/nginx/conf.d/default.conf \
+    && echo '    location / {' >> /etc/nginx/conf.d/default.conf \
+    && echo '        root   /usr/share/nginx/html;' >> /etc/nginx/conf.d/default.conf \
+    && echo '        index  index.html;' >> /etc/nginx/conf.d/default.conf \
+    && echo '        try_files $uri $uri/ /index.html;' >> /etc/nginx/conf.d/default.conf \
+    && echo '    }' >> /etc/nginx/conf.d/default.conf \
+    && echo '    location /api/ {' >> /etc/nginx/conf.d/default.conf \
+    && echo '        proxy_pass http://127.0.0.1:8000/;' >> /etc/nginx/conf.d/default.conf \
+    && echo '        proxy_set_header Host $host;' >> /etc/nginx/conf.d/default.conf \
+    && echo '        proxy_set_header X-Real-IP $remote_addr;' >> /etc/nginx/conf.d/default.conf \
+    && echo '        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;' >> /etc/nginx/conf.d/default.conf \
+    && echo '        proxy_set_header X-Forwarded-Proto $scheme;' >> /etc/nginx/conf.d/default.conf \
+    && echo '    }' >> /etc/nginx/conf.d/default.conf \
+    && echo '}' >> /etc/nginx/conf.d/default.conf
+
+# Expose port 80 to the outside world
+EXPOSE 80
+
+# Start Nginx when the container is started
+CMD ["nginx", "-g", "daemon off;"]
+

@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  flask-api:
+    build:
+      context: ./Backend
+      dockerfile: Dockerfile-flask
+    image: q-self
+    ports:
+      - "8000:8000"
+    networks:
+      - my-network
+
+  nginx-frontend:
+    image: vue-build
+    build:
+      context: ./Frontend
+      dockerfile: Dockerfile-vue
+    ports:
+      - "8080:80"
+    networks:
+      - my-network
+    depends_on:
+      - flask-api
+
+networks:
+  my-network:
+    driver: bridge
