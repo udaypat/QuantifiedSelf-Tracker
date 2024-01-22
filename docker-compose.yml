@@ -17,7 +17,7 @@ services:
       context: ./Frontend
       dockerfile: Dockerfile-vue
     ports:
-      - "8080:80"
+      - "80:80"
     networks:
       - my-network
     depends_on:
