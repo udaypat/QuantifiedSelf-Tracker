@@ -36,9 +36,9 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - VIRTUAL_HOST=api.qqq.udayp.live
+      - VIRTUAL_HOST=api.qself.udayp.live
       - VIRTUAL_PORT=8000
-      - LETSENCRYPT_HOST=api.qqq.udayp.live
+      - LETSENCRYPT_HOST=api.qself.udayp.live
     network_mode: bridge
 
 
@@ -48,14 +48,10 @@ services:
       context: ./Frontend
       dockerfile: Dockerfile-vue
     environment:
-      - VIRTUAL_HOST=qqq.udayp.live
-      - LETSENCRYPT_HOST=qqq.udayp.live
+      - VIRTUAL_HOST=qself.udayp.live
+      - LETSENCRYPT_HOST=qself.udayp.live
     network_mode: bridge
 
-      
-# networks:
-#   my-network:
-#     driver: bridge
 volumes:
   conf:
   vhost:
