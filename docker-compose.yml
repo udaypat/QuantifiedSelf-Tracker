@@ -22,14 +22,9 @@ services:
     build:
       context: ./Frontend
       dockerfile: Dockerfile-vue
-    ports:
-      - "8080:80"
-    depends_on:
-      - flask-api
     environment:
-      - VIRTUAL_HOST=hello.udayp.live
-      - VIRTUAL_PORT=80
-
-networks:
-  my-network:
-    driver: bridge
+      - VIRTUAL_HOST=quantself.udayp.live
+      
+# networks:
+#   my-network:
+#     driver: bridge
