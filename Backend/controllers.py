@@ -311,4 +311,9 @@ def export(file_id):
 
 @app.route("/hello")
 def hello():
+    return "Hello from Flask "
+
+
+@app.route("/api/hello")
+def hello_api():
     return "Hello from Flask API"
