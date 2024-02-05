@@ -23,7 +23,7 @@ services:
       context: ./Frontend
       dockerfile: Dockerfile-vue
     environment:
-      - VIRTUAL_HOST=qq.udayp.live
+      - VIRTUAL_HOST=qqq.udayp.live
       
 # networks:
 #   my-network:
