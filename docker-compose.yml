@@ -35,6 +35,9 @@ services:
     image: q-self
     ports:
       - "8000:8000"
+    environment:
+      - VIRTUAL_HOST=api.qqq.udayp.live
+      - VIRTUAL_PORT=8080
     network_mode: bridge
 
 
