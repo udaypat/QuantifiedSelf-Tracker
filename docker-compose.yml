@@ -1,6 +1,14 @@
-version: '3'
+version: "3"
 
 services:
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    container_name: nginx-proxy
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+
   flask-api:
     build:
       context: ./Backend
@@ -8,20 +16,19 @@ services:
     image: q-self
     ports:
       - "8000:8000"
-    networks:
-      - my-network
 
-  nginx-frontend:
+  vue-frontend:
     image: vue-build
     build:
       context: ./Frontend
       dockerfile: Dockerfile-vue
     ports:
-      - "80:80"
-    networks:
-      - my-network
+      - "8080:80"
     depends_on:
       - flask-api
+    environment:
+      - VIRTUAL_HOST=hello.udayp.live
+      - VIRTUAL_PORT=80
 
 networks:
   my-network:
