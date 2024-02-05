@@ -35,6 +35,8 @@ services:
     image: q-self
     ports:
       - "8000:8000"
+    network_mode: bridge
+
 
   vue-frontend:
     image: vue-build
@@ -44,6 +46,8 @@ services:
     environment:
       - VIRTUAL_HOST=qqq.udayp.live
       - LETSENCRYPT_HOST=qqq.udayp.live
+    network_mode: bridge
+
       
 # networks:
 #   my-network:
